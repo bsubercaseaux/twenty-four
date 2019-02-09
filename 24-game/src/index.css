@@ -1,0 +1,55 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+.card {
+    border: 4px solid #000;
+    font-size: 240px;
+    margin: 25px;
+    float: left;
+    background-color: turquoise; 
+}
+
+.selected-card {
+    border: 4px solid #000;
+    font-size: 240px;
+    margin: 25px;
+    float: left;
+    background-color: coral;
+}
+
+
+button {
+    color: black;
+}
+
+.operation {
+    border: 1px solid #999;
+    font-size: 25px;
+    margin: 15px;
+    float: left;
+
+}
+
+.card-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.centerd {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset {
+    border: 2px solid #999;
+    font-size: 40px;
+    margin: 25px;
+}
+
+.statistics {
+    font-size: 25px;
+}
