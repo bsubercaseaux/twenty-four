@@ -145,7 +145,9 @@ class Board extends React.Component {
     }
 
     checkSolvable() {
-        console.log("checking solvable...");
+        if(this.state.cards.length !== 4) {
+            return;
+        }
         const ans = Solver.checkSolvable(this.state.cards, "");
         console.log(ans);
         if(ans.solvable === false) {
