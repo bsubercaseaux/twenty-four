@@ -8,7 +8,7 @@ The game is structured in post-order notation, this means that 7 - 2 is written 
 
 You can play with the mouse, by clicking on the two cards you want to operate, and then click on the operation below.
 
-However, I like to play with the keyboard, and I get to do better scores with it. To select cards with the keyboard, you can use the numbers 1-4. The number 1 maps to the leftmost card, the number 2 to the following and so on. More in general, to select a card you need to write the 1-index of that card in the screen. Then, you simply need to tap the operation.
+However, I prefer to play with the keyboard, and I get to do better scores with it. To select cards with the keyboard, you can use the numbers 1-4. The number 1 maps to the leftmost card, the number 2 to the following and so on. More in general, to select a card you need to write the 1-index of that card in the screen. Then, you simply need to tap the operation.
 
 When a new card is created, it appears at the rightmost position.
 
