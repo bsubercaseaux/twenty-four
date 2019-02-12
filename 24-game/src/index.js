@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Solver from './solver.js';
 
 class Game extends React.Component {
     constructor(props) {
@@ -8,8 +9,28 @@ class Game extends React.Component {
         this.state = {
             gamesWon: 0,
             bestTime: 1e9,
-            sumTime: 0
+            sumTime: 0,
+            resetBoard: undefined,
+            loseMsg: "",
         };
+    }
+
+    reset() {
+        this.setState({
+            gamesWon: 0,
+            bestTime: 1e9,
+            sumTime: 0,
+            loseMsg: "",
+        });
+        this.state.resetBoard();
+    }
+
+    setResetBoard(func) {
+        this.setState({resetBoard: func})
+    }
+
+    setBlockBoard(func) {
+        this.setState({blockBoard: func});
     }
 
     winGame(newTime) {
@@ -19,19 +40,42 @@ class Game extends React.Component {
             bestTime: Math.min(newTime, this.state.bestTime),
             sumTime: newTime + this.state.sumTime,
         });
+        this.state.resetBoard();
+    }
+
+    onLose(msg) {
+        this.setState({
+            loseMsg: msg
+        });
+        this.state.blockBoard();
     }
 
     render() {
+
         return (
             <div className="centerd" style={{flexDirection: 'column'}}>
                 <h1>The famous game of 24</h1>
+
+                <h2> {this.state.loseMsg} </h2>
+
                 <div className="game-board">
-                    <Board
-                        gamesWon={this.state.gamesWon}
-                        bestTime={this.state.bestTime === 1e9 ? "No scores yet" : this.state.bestTime}
-                        avgTime={this.state.gamesWon && this.state.sumTime / this.state.gamesWon}
-                        onWin={(time) => this.winGame(time)}
-                    />
+                    <Board setBlock={(func) => this.setBlockBoard(func)}
+                           setReset={(func) => this.setResetBoard(func)}
+                           onWin={(time) => this.winGame(time)}
+                           onLose={(msg) => this.onLose(msg)}/>
+                </div>
+
+
+                 <div className="centerd">
+                    <button className="reset" onClick={() => this.reset()}>
+                        Restart Game
+                    </button>
+                </div>
+
+                <div className="statistics centerd" style={{flexDirection:'column'}}>
+                    <p>Games won: {this.state.gamesWon}</p>
+                    <p>Best time: {this.state.bestTime === 1e9 ? "" : this.state.bestTime}</p>
+                    <p>Avg time: {this.state.gamesWon ? this.state.sumTime / this.state.gamesWon : ""}</p>
                 </div>
             </div>
         );
@@ -68,19 +112,52 @@ class Board extends React.Component {
             clicked: Array(4).fill(0),
             ops: [],
             start: Date.now(),
+            blocked: false,
         }
+
+        this.props.setReset(this.reset);
+        this.props.setBlock(this.block);
+
     }
 
-    reset() {
+    componentDidMount() {
+        document.addEventListener("keypress", this.handleKeyPress, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("kepyress", this.handleKeyPress, false);
+    }
+
+    reset = () => {
         this.setState({
             cards: Array(4).fill(undefined).map(element=> Math.floor(Math.random()*13+1)),
             clicked: Array(4).fill(0),
             ops: [],
             start: Date.now(),
+            blocked: false,
         });
     }
 
+    block = () => {
+        this.setState({
+            blocked: true
+        });
+    }
+
+    checkSolvable() {
+        console.log("checking solvable...");
+        const ans = Solver.checkSolvable(this.state.cards, "");
+        console.log(ans);
+        if(ans.solvable === false) {
+            const time = Date.now() - this.state.start;
+            this.props.onWin(time/1000);
+        } else {
+            this.props.onLose(":( It was actually solvable! A possible solution is: " + ans.solution);
+        }
+    }
+
     handleClick(i) {
+        if(this.state.blocked) return;
         const clicked = this.state.clicked.slice();
         const maxTime = Math.max(...clicked);
         clicked[i] = clicked[i] ? 0 : maxTime+1;
@@ -94,13 +171,15 @@ class Board extends React.Component {
     }
 
     handleOp(op) {
+        if(this.state.blocked) return;
         const ops = {
             '+': (a, b) => a+b,
             '-': (a, b) => a-b,
             '*': (a, b) => a*b,
             '/': (a, b) => b && a/b,
         }
-        const copyCards = this.state.cards.map((card, id) => {return {card: card, id: id}});
+        const copyCards = this.state.cards.map((card, id) => {return {card: card, id: id}}).filter(card => this.state.clicked[card.id]);
+        if(copyCards.length !== 2) return;
         copyCards.sort( (a, b) => this.state.clicked[b.id] - this.state.clicked[a.id]);
         const result = ops[op](copyCards[1].card, copyCards[0].card);
         let cards = this.state.cards.filter((card, i) => !this.state.clicked[i]);
@@ -119,13 +198,20 @@ class Board extends React.Component {
         }
     }
 
+    handleKeyPress = (event) => {
+        const ops = ['+', '-', '*', '/'];
+        if(event.key >= 1 && event.key <= this.state.cards.length)  {
+            this.handleClick(parseInt(event.key)-1);
+        } else if(ops.includes(event.key)) {
+            this.handleOp(event.key);
+        }
+    }
+
     render() {
-        const status = winning(this.state.cards) ? "Congratulations, you won! :)" : "";
         return (
 
-            <div>
-                <h1>{status}</h1>
-                <div className="centerd">
+            <div className="centerd" style={{flexDirection: 'column'}}>
+                <div>
                     <div className="card-row">
                         {
                             this.state.cards.map((card, i) =>
@@ -150,17 +236,9 @@ class Board extends React.Component {
                     }
                 </div>
 
-                <div className="centerd">
-                    <button className="reset" onClick={() => this.reset()}>
-                        Restart Game
-                    </button>
-                </div>
-
-                <div className="statistics centerd" style={{flexDirection:'column'}}>
-                    <p>Games won: {this.props.gamesWon}</p>
-                    <p>Best time: {this.props.bestTime}</p>
-                    <p>Avg time: {this.props.avgTime}</p>
-                </div>
+                <button className="unsolvable" onClick={() => this.checkSolvable()}>
+                    Claim unsolvable
+                </button>
             </div>
         );
     }

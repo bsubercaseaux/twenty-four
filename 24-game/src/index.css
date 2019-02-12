@@ -1,20 +1,35 @@
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+    font: 14px "Century Gothic", Futura, sans-serif;
+}
+
+p {
+    margin: 10px;
+}
+
+h1 {
+    font: 68px "Century Gothic", Futura, sans-serif;
+    margin: 10px;
+}
+
+h2 {
+    font: 38px "Century Gothic", Futura, sans-serif;
+    margin: 5px;
 }
 
 .card {
     border: 4px solid #000;
+    border-radius: 40px;
     font-size: 240px;
-    margin: 25px;
+    margin: 15px;
     float: left;
     background-color: turquoise; 
 }
 
 .selected-card {
     border: 4px solid #000;
+    border-radius: 40px;
     font-size: 240px;
-    margin: 25px;
+    margin: 15px;
     float: left;
     background-color: coral;
 }
@@ -22,12 +37,13 @@ body {
 
 button {
     color: black;
+    margin: 5px;
 }
 
 .operation {
     border: 1px solid #999;
     font-size: 25px;
-    margin: 15px;
+    margin: 10px;
     float: left;
 
 }
@@ -36,6 +52,7 @@ button {
   clear: both;
   content: "";
   display: table;
+  margin-bottom: 35px;
 }
 
 .centerd {
@@ -44,12 +61,15 @@ button {
     justify-content: center;
 }
 
-.reset {
-    border: 2px solid #999;
+.reset, .unsolvable {
+    border: 2px solid #000;
+    border-radius: 10px;
+    background-color: aliceblue;
     font-size: 40px;
-    margin: 25px;
+    margin: 5px;
 }
 
 .statistics {
     font-size: 25px;
+    margin: 7px;
 }
