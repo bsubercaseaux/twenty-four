@@ -176,11 +176,14 @@ class Board extends React.Component {
             '+': (a, b) => a+b,
             '-': (a, b) => a-b,
             '*': (a, b) => a*b,
-            '/': (a, b) => b && a/b,
+            '/': (a, b) => a/b,
         }
         const copyCards = this.state.cards.map((card, id) => {return {card: card, id: id}}).filter(card => this.state.clicked[card.id]);
         if(copyCards.length !== 2) return;
         copyCards.sort( (a, b) => this.state.clicked[b.id] - this.state.clicked[a.id]);
+        if(op === '/' && (copyCards[0].card === 0 || copyCards[1].card % copyCards[0].card)) {
+            return;
+        }
         const result = ops[op](copyCards[1].card, copyCards[0].card);
         let cards = this.state.cards.filter((card, i) => !this.state.clicked[i]);
         cards.push(result);
