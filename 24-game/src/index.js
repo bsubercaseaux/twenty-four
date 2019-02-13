@@ -74,8 +74,8 @@ class Game extends React.Component {
 
                 <div className="statistics centerd" style={{flexDirection:'column'}}>
                     <p>Games won: {this.state.gamesWon}</p>
-                    <p>Best time: {this.state.bestTime === 1e9 ? "" : this.state.bestTime}</p>
-                    <p>Avg time: {this.state.gamesWon ? this.state.sumTime / this.state.gamesWon : ""}</p>
+                    <p>Best time: {this.state.bestTime === 1e9 ? "" : this.state.bestTime.toFixed(3)}</p>
+                    <p>Avg time: {this.state.gamesWon ? (this.state.sumTime / this.state.gamesWon).toFixed(3) : ""}</p>
                 </div>
             </div>
         );
