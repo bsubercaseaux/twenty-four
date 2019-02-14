@@ -1,5 +1,6 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
+    background-color: #D9FFF8;
 }
 
 p {
@@ -9,29 +10,29 @@ p {
 h1 {
     font: 68px "Century Gothic", Futura, sans-serif;
     margin: 10px;
+    color: #2E4756;
 }
 
 h2 {
-    font: 38px "Century Gothic", Futura, sans-serif;
+    font: 38px Apply Symbols;
+    color: #2E4756;
     margin: 5px;
 }
 
-.card {
-    border: 4px solid #000;
-    border-radius: 40px;
-    font-size: 240px;
+.card, .selected-card {
+    border: 4px solid #2E4756;
+    border-radius: 10px;
+    font-size: 180px;
     margin: 15px;
     float: left;
-    background-color: turquoise; 
+    color: #2E4756;
+    background-color: #86BBD8; 
+    width: 230px;
+    height: 300px;
 }
 
 .selected-card {
-    border: 4px solid #000;
-    border-radius: 40px;
-    font-size: 240px;
-    margin: 15px;
-    float: left;
-    background-color: coral;
+    background-color: #FF9973;
 }
 
 
@@ -41,8 +42,11 @@ button {
 }
 
 .operation {
-    border: 1px solid #999;
-    font-size: 25px;
+    border: 2px solid #2E4756;
+    color: #2E4756;
+    border-radius: 3px;
+    background-color: #86BBD8;
+    font-size: 65px;
     margin: 10px;
     float: left;
 
@@ -52,7 +56,7 @@ button {
   clear: both;
   content: "";
   display: table;
-  margin-bottom: 35px;
+  margin-bottom: 5px;
 }
 
 .centerd {
@@ -62,14 +66,20 @@ button {
 }
 
 .reset, .unsolvable {
-    border: 2px solid #000;
-    border-radius: 10px;
-    background-color: aliceblue;
-    font-size: 40px;
+    color: #2E4756;
+    border: 3px solid #2E4756;
+    border-radius: 5px;
+    background-color: #D9FFF8;
+    font-size: 45px;
     margin: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 .statistics {
     font-size: 25px;
     margin: 7px;
+    color: #2E4756;
 }

@@ -65,17 +65,16 @@ class Game extends React.Component {
                            onLose={(msg) => this.onLose(msg)}/>
                 </div>
 
-
-                 <div className="centerd">
-                    <button className="reset" onClick={() => this.reset()}>
-                        Restart Game
-                    </button>
-                </div>
-
                 <div className="statistics centerd" style={{flexDirection:'column'}}>
                     <p>Games won: {this.state.gamesWon}</p>
                     <p>Best time: {this.state.bestTime === 1e9 ? "" : this.state.bestTime.toFixed(3)}</p>
                     <p>Avg time: {this.state.gamesWon ? (this.state.sumTime / this.state.gamesWon).toFixed(3) : ""}</p>
+                </div>
+
+                <div className="centerd">
+                    <button className="reset" onClick={() => this.reset()}>
+                        Restart Game
+                    </button>
                 </div>
             </div>
         );
@@ -148,7 +147,8 @@ class Board extends React.Component {
         if(this.state.cards.length !== 4) {
             return;
         }
-        const ans = Solver.checkSolvable(this.state.cards, "");
+        const cards = this.state.cards.map(card => {return {value: card, history: "" + card};});
+        const ans = Solver.checkSolvable(cards);
         console.log(ans);
         if(ans.solvable === false) {
             const time = Date.now() - this.state.start;
@@ -164,7 +164,7 @@ class Board extends React.Component {
         const maxTime = Math.max(...clicked);
         clicked[i] = clicked[i] ? 0 : maxTime+1;
         if(clicked.filter(element => element).length === 2) {
-            this.setState({ops: ['+', '-', '*', '/']});
+            this.setState({ops: ['+', '-', 'x', '/']});
         } else {
             this.setState({ops: []});
         }
@@ -177,6 +177,7 @@ class Board extends React.Component {
         const ops = {
             '+': (a, b) => a+b,
             '-': (a, b) => a-b,
+            'x': (a, b) => a*b,
             '*': (a, b) => a*b,
             '/': (a, b) => a/b,
         }
@@ -204,7 +205,7 @@ class Board extends React.Component {
     }
 
     handleKeyPress = (event) => {
-        const ops = ['+', '-', '*', '/'];
+        const ops = ['+', '-', 'x', '/', '*'];
         if(event.key >= 1 && event.key <= this.state.cards.length)  {
             this.handleClick(parseInt(event.key)-1);
         } else if(ops.includes(event.key)) {
@@ -242,7 +243,7 @@ class Board extends React.Component {
                 </div>
 
                 <button className="unsolvable" onClick={() => this.checkSolvable()}>
-                    Claim unsolvable
+                    Claim Unsolvable
                 </button>
             </div>
         );

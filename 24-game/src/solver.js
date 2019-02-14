@@ -2,8 +2,8 @@ export default class Solver {
     static checkSolvable(cards, path) {
         if(cards.length === 1) {
             return  {
-                solvable: (cards[0] === 24),
-                solution: path
+                solvable: (cards[0].value === 24),
+                solution: cards[0].history,
             };
         }
 
@@ -22,14 +22,12 @@ export default class Solver {
 
                 for(let k = 0; k < ops.length; ++k) {
                     let op = ops[k];
-                    if(op === '/' && (cards[j] === 0 || cards[i] % cards[j]))
+                    if(op === '/' && (cards[j].value === 0 || cards[i].value % cards[j].value))
                         continue;
 
-                    const n = operate[op](cards[i], cards[j]);
-                    newCards.push(n);
-
-                    const newPath = path + (i+1) + " " + (j+1) + " " + op + "|";
-                    const recAnswer = Solver.checkSolvable(newCards, newPath);
+                    const n = operate[op](cards[i].value, cards[j].value);
+                    newCards.push({value: n, history: '(' + cards[i].history + op + cards[j].history + ')'});
+                    const recAnswer = Solver.checkSolvable(newCards);
                     if(recAnswer.solvable) {
                         return recAnswer;
                     }
