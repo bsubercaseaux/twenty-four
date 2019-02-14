@@ -27,7 +27,7 @@ h2 {
     float: left;
     color: #2E4756;
     background-color: #86BBD8; 
-    width: 230px;
+    min-width: 209px;
     height: 300px;
 }
 
