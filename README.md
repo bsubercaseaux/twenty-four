@@ -2,6 +2,8 @@
 
 A simple web version of the game 24.
 
+Accesible at www.bsub.cl/24
+
 ## Gameplay
 
 The game is structured in post-order notation, this means that 7 - 2 is written instead as `7 2 -`.
