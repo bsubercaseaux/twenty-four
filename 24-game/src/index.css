@@ -4,7 +4,13 @@ body {
 }
 
 p {
-    margin: 10px;
+    font: 28px "Century Gothic", Futura, sans-serif;
+    margin: 30px;
+}
+
+p.stats {
+    font : 14px;
+    margin: 4px;
 }
 
 h1 {
@@ -77,6 +83,25 @@ button {
     padding-top: 8px;
     padding-bottom: 8px;
 }
+
+.help {
+    color: #2E4756;
+    border: 3px solid #2E4756;
+    border-radius: 5px;
+    background-color: #D9FFF8;
+    font-size: 15px;
+    margin: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+.reset:hover, .unsolvable:hover, .help:hover {
+    background-color: #2E4756;
+    color: #D9FFF8;
+}
+
+
 
 .statistics {
     font-size: 25px;
