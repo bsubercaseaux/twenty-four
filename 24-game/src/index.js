@@ -4,6 +4,7 @@ import ReactModal from 'react-modal';
 import ReactCountdownClock from 'react-countdown-clock';
 import './index.css';
 import Solver from './solver.js';
+import { post } from './api.js';
 
 class Game extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class Game extends React.Component {
       sumTime: 0,
       resetBoard: undefined,
       msg: "",
-      remainingSeconds: 45,
+      timeLimit: 45,
+      highscore: false,
     };
   }
 
@@ -24,6 +26,7 @@ class Game extends React.Component {
       bestTime: 45,
       sumTime: 0,
       msg: "",
+      highscore: false,
     });
     this.state.resetBoard();
   }
@@ -46,18 +49,31 @@ class Game extends React.Component {
   }
 
   calculateScore() {
-    const { gamesWon, bestTime, sumTime, remainingSeconds } = this.state;
+    const { gamesWon, bestTime, sumTime, timeLimit } = this.state;
     const avgTime = sumTime / (gamesWon+1);
-    return (45 + remainingSeconds - avgTime)*gamesWon + Math.pow(remainingSeconds - bestTime, 3);
+    console.log("calculating score, rSeconds = " + timeLimit);
+    return Math.floor((timeLimit - avgTime)*gamesWon + Math.pow(timeLimit - bestTime, 1.2))/10;
   }
 
   onLose = (msg) => {
-    let score = Math.floor(this.calculateScore()/100);
+    let score = this.calculateScore();
     this.setState({
       msg,
       score
     });
     this.state.blockBoard();
+  }
+
+  handleChange = (event) => {
+    this.setState({name: event.target.value});
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = { name: this.state.name, score: this.state.score };
+    console.log("on submit" + JSON.stringify(data));
+    await post('submitScore/', data);
+    this.setState({ highscore: true});
   }
 
   render() {
@@ -73,13 +89,25 @@ class Game extends React.Component {
         {this.state.msg !== '' &&
             <div>
               <h2 style={{color: "lightcoral"}}> Your score is: {this.state.score}</h2>
-              {/*<HighscoreTable items={highscores}/>*/}
-            </div>
+            </div>}
+
+            {this.state.msg !== '' && !this.state.highscore &&  <div>
+              <form onSubmit={this.handleSubmit}>
+                <label>
+                  Your name:
+                  <input type="text" onChange={this.handleChange} />
+                </label>
+                <input type="submit" value="Submit your score and check highscores!" />
+              </form>
+            </div>}
+
+        {this.state.highscore &&
+          <HighscoreTable/>
         }
 
         {this.state.msg === '' && <ReactCountdownClock
           key={this.state.gamesWon}
-          seconds={this.state.remainingSeconds}
+          seconds={this.state.timeLimit}
           color="#FF1493"
           alpha={0.7}
           size={60}
@@ -142,18 +170,30 @@ function Help(props) {
   );
 }
 
-function HighscoreTable(props) {
-  return (
-    <div style={{fontSize:28}}> The top 10 highest score are:
-      <ul>
-        {props.items.map((item, index) =>
-          <li key={index}>
-            {item}
-          </li>
-        )}
-      </ul>
-    </div>
-  );
+class HighscoreTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { data: [] };
+  }
+
+  async componentDidMount() {
+    const data = await post('getTop/', { number: 10});
+    this.setState({ data });
+  }
+
+  render() {
+    return (
+      <div style={{fontSize:28}}> The top 10 highest score are:
+        <ul>
+          {this.state.data.map((item, index) =>
+            <li key={index}>
+              {item}
+            </li>
+          )}
+        </ul>
+      </div>
+    );
+  }
 }
 
 function Card(props) {
@@ -187,18 +227,18 @@ class Board extends React.Component {
       start: Date.now(),
       blocked: false,
     }
-
-    this.props.setReset(this.reset);
-    this.props.setBlock(this.block);
-
   }
 
   componentDidMount() {
     document.addEventListener("keypress", this.handleKeyPress, false);
+    this.props.setReset(this.reset);
+    this.props.setBlock(this.block);
   }
 
   componentWillUnmount() {
     document.removeEventListener("kepyress", this.handleKeyPress, false);
+    this.props.setReset(()=>{});
+    this.props.setBlock(()=>{});
   }
 
   reset = () => {

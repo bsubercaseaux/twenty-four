@@ -1,0 +1,16 @@
+{
+  "name": "24-server",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": "https://github.com/bsubercaseaux/twenty-four.git",
+  "author": "Bernardo Subercaseaux <bernardosubercaseaux@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  }
+}
