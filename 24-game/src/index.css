@@ -50,12 +50,12 @@ button {
 .operation {
     border: 2px solid #2E4756;
     color: #2E4756;
-    border-radius: 3px;
+    border-radius: 4px;
     background-color: #86BBD8;
-    font-size: 65px;
-    margin: 10px;
+    font-size: 95px;
+    width: 2em;
+    margin: 15px;
     float: left;
-
 }
 
 .card-row:after {

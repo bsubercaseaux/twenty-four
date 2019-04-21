@@ -222,6 +222,7 @@ function winning(cards) {
 class Board extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       prevCards: [],
       cards: Array(4).fill(undefined).map(element=> Math.floor(Math.random()*13+1)),
