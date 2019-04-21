@@ -13,6 +13,7 @@ class Game extends React.Component {
       gamesWon: 0,
       bestTime: 45,
       sumTime: 0,
+      resets: 0,
       resetBoard: undefined,
       msg: "",
       timeLimit: 45,
@@ -23,6 +24,7 @@ class Game extends React.Component {
   reset() {
     this.setState({
       gamesWon: 0,
+      resets: this.state.resets+1,
       bestTime: 45,
       sumTime: 0,
       msg: "",
@@ -106,7 +108,7 @@ class Game extends React.Component {
         }
 
         {this.state.msg === '' && <ReactCountdownClock
-          key={this.state.gamesWon}
+          key={this.state.gamesWon+this.state.resets}
           seconds={this.state.timeLimit}
           color="#FF1493"
           alpha={0.7}
@@ -307,14 +309,10 @@ class Board extends React.Component {
     const clicked = Array(cards.length).fill(false);
     this.setState({cards, clicked, ops: []});
 
-    console.log("cards: " + this.state.cards);
 
     if(winning(cards)) {
-      console.log("Win :)");
       const time = Date.now() - this.state.start;
       this.props.onWin(time/1000);
-    } else {
-      console.log("No win :(");
     }
   }
 
