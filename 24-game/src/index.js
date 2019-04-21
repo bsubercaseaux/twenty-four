@@ -223,9 +223,10 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
 
+    const cardArray = Array(4).fill(undefined).map(element => Math.floor(Math.random()*13+1));
     this.state = {
-      prevCards: [],
-      cards: Array(4).fill(undefined).map(element=> Math.floor(Math.random()*13+1)),
+      prevCards: Array.from(cardArray),
+      cards: Array.from(cardArray),
       clicked: Array(4).fill(0),
       ops: [],
       start: Date.now(),
