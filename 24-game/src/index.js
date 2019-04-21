@@ -223,7 +223,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
 
-    const cardArray = Array(4).fill(undefined).map(element => Math.floor(Math.random()*13+1));
+    const cardArray = this.produceCardArray(4);
     this.state = {
       prevCards: Array.from(cardArray),
       cards: Array.from(cardArray),
@@ -232,6 +232,17 @@ class Board extends React.Component {
       start: Date.now(),
       blocked: false,
     }
+  }
+
+  produceCardArray(n) {
+    let deck = Array(52).fill(undefined).map((element, index) => (index % 13) + 1);
+    let answer = [];
+    while(answer.length < n && deck.length > 0) {
+      let index = Math.floor(Math.random()*deck.length);
+      answer.push(deck[index]);
+      deck.splice(index, 1);
+    }
+    return answer;
   }
 
   componentDidMount() {
