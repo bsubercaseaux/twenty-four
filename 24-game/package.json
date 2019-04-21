@@ -2,6 +2,7 @@
   "name": "24-game",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://www.bsub.cl/24",
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.8.1",
@@ -20,7 +21,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "https://bsub.cl/api",
   "browserslist": [
     ">0.2%",
     "not dead",

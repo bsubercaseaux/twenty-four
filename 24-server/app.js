@@ -18,16 +18,15 @@ const cors = require('cors');
 
 // cross origin stuff
 const corsOptions = {
-  origin: [ 'http://localhost:3000' ],
+	origin: [ 'https://www.bsub.cl/24', 'https://www.bsub.cl', '*'],
   methods: [ 'GET', 'POST', 'OPTIONS' ],
   credentials: true,
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
 };
 
-app.options('*', cors(corsOptions));
-app.use(cors(corsOptions));
+//app.options('*', cors(corsOptions));
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
@@ -35,7 +34,8 @@ app.use(function(req, res, next) {
 let topScores = [];
 
 app.post('/api/getTop', function(req, res) {
-  const { number } = req.body;
+  let { number } = req.body;
+  if(!number) number = 10;
   let answer = [];
   for(let i = 0; i < Math.min(number, topScores.length); ++i) {
     answer.push(topScores[i].name + ": " + topScores[i].score);

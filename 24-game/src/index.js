@@ -72,7 +72,7 @@ class Game extends React.Component {
     event.preventDefault();
     const data = { name: this.state.name, score: this.state.score };
     console.log("on submit" + JSON.stringify(data));
-    await post('submitScore/', data);
+    await post('submitScore', data);
     this.setState({ highscore: true});
   }
 
@@ -177,7 +177,7 @@ class HighscoreTable extends React.Component {
   }
 
   async componentDidMount() {
-    const data = await post('getTop/', { number: 10});
+    const data = await post('getTop', { number: 10});
     this.setState({ data });
   }
 

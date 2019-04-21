@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-const api = 'http://localhost:3001/api/';
+const api = 'https://bsub.cl/api/';
 
 export async function post(path, data = {}) {
   const jsonString = JSON.stringify(data);
