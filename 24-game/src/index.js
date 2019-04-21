@@ -185,7 +185,7 @@ class HighscoreTable extends React.Component {
 
   render() {
     return (
-      <div style={{fontSize:28}}> The top 10 highest score are:
+      <div style={{fontSize:28}}> The top 10 highest scores are:
         <ul>
           {this.state.data.map((item, index) =>
             <li key={index}>
@@ -223,6 +223,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      prevCards: [],
       cards: Array(4).fill(undefined).map(element=> Math.floor(Math.random()*13+1)),
       clicked: Array(4).fill(0),
       ops: [],
@@ -305,9 +306,10 @@ class Board extends React.Component {
     }
     const result = ops[op](copyCards[1].card, copyCards[0].card);
     let cards = this.state.cards.filter((card, i) => !this.state.clicked[i]);
+    let prevCards = Array.from(this.state.cards);
     cards.push(result);
     const clicked = Array(cards.length).fill(false);
-    this.setState({cards, clicked, ops: []});
+    this.setState({cards, clicked, ops: [], prevCards});
 
 
     if(winning(cards)) {
@@ -322,6 +324,8 @@ class Board extends React.Component {
       this.handleClick(parseInt(event.key)-1);
     } else if(ops.includes(event.key)) {
       this.handleOp(event.key);
+    } else if(event.key === 'z') {
+      this.setState({ cards: Array.from(this.state.prevCards) });
     }
   }
 
