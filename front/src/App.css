@@ -1,0 +1,144 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  background-color: #D9FFF8;
+}
+
+p {
+  font: 28px "Century Gothic", Futura, sans-serif;
+  margin: 30px;
+}
+
+p.stats {
+  font: 14px;
+  margin: 4px;
+}
+
+h1 {
+  font: 68px "Century Gothic", Futura, sans-serif;
+  margin: 10px;
+  color: #2E4756;
+}
+
+h2 {
+  font: 38px "Century Gothic", Futura, sans-serif;
+  color: #2E4756;
+  margin: 5px;
+}
+
+.card, .selected-card {
+  border: 4px solid #2E4756;
+  border-radius: 10px;
+  font-size: 120px;
+  margin: 15px;
+  float: left;
+  padding: 0;
+  color: #2E4756;
+  background-color: #86BBD8;
+  width: 180px;
+  height: 180px;
+}
+
+.card:hover {
+  background-color: #6eccdd;
+}
+
+.selected-card {
+  background-color: #FF9973;
+}
+
+
+button {
+  color: black;
+  margin: 5px;
+}
+
+.operation {
+  border: 2px solid #2E4756;
+  color: #2E4756;
+  border-radius: 30px;
+  background-color: #86d8a9;
+  font-size: 65px;
+  padding: 0;
+  width: 2em;
+  margin: 15px;
+  float: left;
+}
+
+.card-row:after {
+  clear: both;
+  content: "";
+  display: table;
+  margin-bottom: 5px;
+}
+
+.centerd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset,
+.unsolvable {
+  color: #2E4756;
+  border: 3px solid #2E4756;
+  border-radius: 5px;
+  background-color: #D9FFF8;
+  font-size: 45px;
+  margin: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.helpBtn {
+  color: #2E4756;
+  border: 3px solid #2E4756;
+  border-radius: 5px;
+  background-color: #D9FFF8;
+  font-size: 15px;
+  margin: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 50px;
+  font-size: 20px;
+  right: 120px;
+}
+
+.help-modal {
+  color: #2E4756;
+  background-color: rgb(206, 209, 255);
+  width: 80%;
+  height: 80%;
+  margin-left: 10em;
+  margin-top: 5em;
+  border-radius: 10px;
+  overflow-y: scroll;
+  box-shadow: #86BBD8 0px 0px 5px 5px;
+}
+
+.reset:hover,
+.unsolvable:hover,
+.help:hover {
+  background-color: #2E4756;
+  color: #D9FFF8;
+}
+
+
+
+.statistics {
+  font-size: 25px;
+  margin: 7px;
+  color: #2E4756;
+}
